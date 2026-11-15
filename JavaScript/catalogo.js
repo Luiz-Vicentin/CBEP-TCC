@@ -1,6 +1,15 @@
 /* Fontes e critérios bibliográficos: ver Documentacao/FONTES.md. */
 const catalogoObras = [
   {
+    "id": "laura",
+    "nome": "Laura Santos",
+    "pagina": "autores/laura-santos.html#obras",
+    "obras": ["Sangue Tropical e outros poemas"],
+    "links": {
+      "Sangue Tropical e outros poemas": "autores/laura-sangue-tropical-e-outros-poemas.html"
+    }
+  },
+  {
     "id": "dalton",
     "nome": "Dalton Trevisan",
     "pagina": "Dalton_Pasta/obras-dalton.html",

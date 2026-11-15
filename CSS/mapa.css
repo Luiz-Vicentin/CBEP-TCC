@@ -15,6 +15,9 @@
 .pagina-mapa .panel .city h3{font-size:1.125rem;line-height:1.4;color:var(--azul);margin:0 0 10px;font-weight:400}
 .pagina-mapa .panel ul{list-style:none;margin:0;padding:0}
 .pagina-mapa .panel li{font-size:0.9375rem;line-height:1.5;padding:6px 0}
+.pagina-mapa .panel li a{color:inherit;font:inherit;text-decoration:none;display:block}
+.pagina-mapa .panel li a:hover{text-decoration:underline}
+.pagina-mapa .panel li a:focus-visible{outline:2px solid var(--azul);outline-offset:3px}
 .pagina-mapa .panel .note{font-size:0.6875rem;line-height:1.55;color:#65777e;margin:12px 0 0}
 .pagina-mapa .panel .empty{font-size:0.9375rem;line-height:1.65;color:#566966;margin:0}
 .pagina-mapa .close{position:absolute;top:14px;right:12px;width:30px;height:30px;border:0;background:none;color:var(--verde);font-size:1.5625rem;cursor:pointer}

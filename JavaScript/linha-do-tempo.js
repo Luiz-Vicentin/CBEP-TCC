@@ -97,42 +97,43 @@ const eventos = [
     "descricao": "Luci Collin continua a produzir e a publicar novas obras ao longo dos anos. Sua escrita permanece contribuindo para a renovação e a valorização da literatura paranaense contemporânea, deixando marcas de sua trajetória."
   }
 ];
-const dates = document.querySelector('.timeline-dates');
-const panel = document.querySelector('#timeline-painel');
-const previous = document.querySelector('#timeline-prev');
-const next = document.querySelector('#timeline-next');
-
-let current = 0;
-function showEvent(index) {
-  current = Math.max(0, Math.min(eventos.length - 1, index));
-  const event = eventos[current];
-  panel.replaceChildren();
-  const year = document.createElement('span'); year.className = 'timeline-year'; year.textContent = event.ano;
-  const description = document.createElement('div'); description.className = 'timeline-description';
-  event.descricao.split('\n\n').forEach(texto => { const p = document.createElement('p'); p.textContent = texto; description.append(p); });
-  panel.append(year, description);
-  [...dates.children].forEach((button,i) => {
-    button.classList.toggle('selected', i===current);
-    button.setAttribute('aria-selected', String(i===current));
-    button.tabIndex = i===current ? 0 : -1;
-  });
-  dates.children[current].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-  previous.disabled = current===0;
-  next.disabled = current===eventos.length-1;
+const periodos = [[1853,1900],[1901,1950],[1951,2000],[2001,2026]];
+const imagensArvore = ['1-removebg-preview.png','3-removebg-preview.png','6-removebg-preview.png','max.png'];
+const raizArvore = new URL('../imagens/arvore/', document.currentScript.src);
+const dates=document.querySelector('.timeline-dates');
+const panel=document.querySelector('#timeline-painel');
+const previous=document.querySelector('#timeline-prev');
+const next=document.querySelector('#timeline-next');
+let current=0;
+function showPeriod(index){
+ current=Math.max(0,Math.min(periodos.length-1,index));
+ const [inicio,fim]=periodos[current];
+ panel.replaceChildren();panel.scrollTop=0;
+ const lista=document.createElement('ol');lista.className='timeline-event-list';
+ eventos.filter(e=>parseInt(e.ano,10)>=inicio&&parseInt(e.ano,10)<=fim).forEach(e=>{
+  const item=document.createElement('li');const ano=document.createElement('h3');ano.textContent=e.ano;
+  const descricao=document.createElement('div');descricao.className='timeline-description';
+  e.descricao.split('\n\n').forEach(texto=>{const p=document.createElement('p');p.textContent=texto;descricao.append(p)});
+  item.append(ano,descricao);lista.append(item);
+ });
+ panel.append(lista);
+ [...dates.children].forEach((b,i)=>{b.classList.toggle('selected',i===current);b.setAttribute('aria-selected',String(i===current));b.tabIndex=i===current?0:-1});
+ panel.setAttribute('aria-labelledby',dates.children[current].id);
+ dates.children[current].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+ previous.disabled=current===0;next.disabled=current===periodos.length-1;
 }
-eventos.forEach((event,i) => {
-  const button = document.createElement('button');
-  button.type = 'button'; button.role = 'tab'; button.textContent = event.ano;
-  button.setAttribute('aria-controls','timeline-painel');
-  button.addEventListener('click', () => showEvent(i));
-  dates.append(button);
+periodos.forEach(([inicio,fim],i)=>{
+ const b=document.createElement('button');b.id='timeline-periodo-'+i;b.type='button';b.setAttribute('role','tab');b.setAttribute('aria-controls','timeline-painel');b.textContent=inicio+'–'+fim;
+ const simbolo=document.createElement('span');simbolo.className='timeline-simbolo';
+ const arvore=document.createElement('img');arvore.src=new URL(imagensArvore[i],raizArvore).href;
+ arvore.alt='';arvore.setAttribute('aria-hidden','true');arvore.className='timeline-arvore timeline-arvore-'+i;
+ arvore.width=48;arvore.height=56;simbolo.append(arvore);b.prepend(simbolo);
+ b.addEventListener('click',()=>showPeriod(i));dates.append(b);
 });
-previous.addEventListener('click', () => showEvent(current-1));
-next.addEventListener('click', () => showEvent(current+1));
-dates.addEventListener('keydown', (event) => {
-  if (event.key==='ArrowRight' || event.key==='ArrowLeft') {
-    event.preventDefault(); const offset=event.key==='ArrowRight'?1:-1;
-    showEvent(current+offset); dates.children[current].focus();
-  }
+previous.addEventListener('click',()=>showPeriod(current-1));
+next.addEventListener('click',()=>showPeriod(current+1));
+dates.addEventListener('keydown',e=>{
+ if(!['ArrowRight','ArrowLeft','Home','End'].includes(e.key))return;
+ e.preventDefault();showPeriod(e.key==='Home'?0:e.key==='End'?3:current+(e.key==='ArrowRight'?1:-1));dates.children[current].focus();
 });
-showEvent(0);
+showPeriod(0);

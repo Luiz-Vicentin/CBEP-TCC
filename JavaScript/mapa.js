@@ -135,7 +135,7 @@ canvas.addEventListener('blur',()=>activate(selectedRegion));
 source.src=document.querySelector('#map-image').src;
 
 const regionNames=["Noroeste Paranaense", "Centro Ocidental Paranaense", "Norte Central Paranaense", "Norte Pioneiro Paranaense", "Centro Oriental Paranaense", "Oeste Paranaense", "Sudoeste Paranaense", "Centro-Sul Paranaense", "Sudeste Paranaense", "Metropolitana de Curitiba"];
-const authorsByRegion=[[], [], [{"cidade": "Londrina", "autores": ["Domingos Pellegrini"]}, {"cidade": "Novo Itacolomi", "autores": ["Olívio Jekupé"]}], [], [], [], [], [], [{"cidade": "Cruz Machado", "autores": ["Helena Kolody"]}], [{"cidade": "Curitiba", "autores": ["Alice Ruiz", "Dalton Trevisan", "Emílio de Menezes", "Jéssica Iancoski", "Luci Collin", "Luís Henrique Pellanda", "Paulo Leminski"]}, {"cidade": "Pinhais", "autores": ["Emiliano Perneta"], "nota": "O local pertencia a Curitiba na época de seu nascimento."}]];
+const authorsByRegion=[[],[{"cidade":"Campo Mourão","autores":["Elenice Koziel"],"nota":"Cidade de residência da autora. Nasceu na zona rural, na divisa entre Roncador e Pitanga."}],[{"cidade":"Londrina","autores":["Domingos Pellegrini"]},{"cidade":"Novo Itacolomi","autores":["Olívio Jekupé"]}],[],[],[],[],[],[{"cidade":"Cruz Machado","autores":["Helena Kolody"]}],[{"cidade":"Curitiba","autores":["Alice Ruiz","Dalton Trevisan","Emílio de Menezes","Jéssica Iancovski","Jô Macario","Laura Santos","Luci Collin","Luís Henrique Pellanda","Paulo Leminski"]},{"cidade":"Pinhais","autores":["Emiliano Perneta"],"nota":"O local pertencia a Curitiba na época de seu nascimento."}]];
 const panel=document.querySelector('#authors-panel');
 function selectRegion(index,point){
  // No teclado, posiciona o pino dentro da região, perto do centro de seus limites.
@@ -153,13 +153,22 @@ function selectRegion(index,point){
  document.querySelector('#region-title').textContent=regionNames[index];
  const groups=authorsByRegion[index],content=document.querySelector('#city-groups');content.replaceChildren();
  let count=groups.reduce((sum,group)=>sum+group.autores.length,0);
- document.querySelector('#author-count').textContent=count?count+' '+(count===1?'autor do CBEP':'autores do CBEP')+' • Local de nascimento':'Autores do CBEP • Local de nascimento';
- if(!count){const empty=document.createElement('p');empty.className='empty';empty.textContent='Nenhum autor do catálogo CBEP nasceu nesta região.';content.append(empty)}
+ document.querySelector('#author-count').textContent=count?count+' '+(count===1?'autor do CBEP':'autores do CBEP')+' • '+(index===1?'Local de residência':index===9?'Nascimento e atuação':'Local de nascimento'):'Autores do CBEP • Local de nascimento';
+ if(!count){const empty=document.createElement('p');empty.className='empty';empty.textContent='Nenhum autor cadastrado ainda';content.append(empty)}
  groups.forEach(group=>{
   const section=document.createElement('section');section.className='city';
   const title=document.createElement('h3');title.textContent=group.cidade;section.append(title);
   const list=document.createElement('ul');
-  group.autores.forEach(name=>{const item=document.createElement('li');item.textContent=name;list.append(item)});
+  group.autores.forEach(name=>{
+   const item=document.createElement('li');
+   const autor=autores.find(([nome])=>nome===name);
+   if(autor){
+    const link=document.createElement('a');
+    link.textContent=name;link.href=new URL(autor[1],raizSite).href;
+    item.append(link);
+   }else item.textContent=name;
+   list.append(item);
+  });
   section.append(list);
   if(group.nota){const note=document.createElement('p');note.className='note';note.textContent=group.nota;section.append(note)}
   content.append(section);

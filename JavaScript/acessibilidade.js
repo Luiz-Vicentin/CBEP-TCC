@@ -33,11 +33,21 @@
   };
   aplicar();
   document.addEventListener('DOMContentLoaded', () => {
-    aplicar();
     const conteudo = document.querySelector('main');
     if (conteudo) new MutationObserver(ampliarConteudo).observe(conteudo, {childList: true, subtree: true});
     const abrir = document.querySelector('#abrir-acessibilidade');
     const painel = document.querySelector('#painel-acessibilidade');
+    if (painel) painel.innerHTML = `
+      <div class="acessibilidade-topo">
+        <h2 id="titulo-acessibilidade">ACESSIBILIDADE</h2>
+        <button type="button" class="acessibilidade-fechar" aria-label="Fechar acessibilidade">&times;</button>
+      </div>
+      <button id="alternar-contraste" type="button" aria-label="Alto contraste" aria-pressed="false"><span aria-hidden="true">&#9881;</span>Contraste</button>
+      <button type="button" data-fonte="aumentar"><span aria-hidden="true">A+</span>Aumentar o tamanho do texto</button>
+      <button type="button" data-fonte="diminuir"><span aria-hidden="true">A-</span>Diminuir tamanho do texto</button>
+      <button type="button" data-fonte="normal"><span aria-hidden="true">A</span>Restaurar tamanho do texto</button>
+      <span id="fonte-status" class="fonte-status" role="status" aria-live="polite"></span>`;
+    aplicar();
     const alternar = document.querySelector('#alternar-contraste');
     const fechar = (retornarFoco = false) => {
       if (!painel || !abrir) return;
@@ -48,7 +58,9 @@
     abrir?.addEventListener('click', () => {
       painel.hidden = !painel.hidden;
       abrir.setAttribute('aria-expanded', String(!painel.hidden));
+      if (!painel.hidden) painel.querySelector('.acessibilidade-fechar').focus();
     });
+    painel?.querySelector('.acessibilidade-fechar').addEventListener('click', () => fechar(true));
     document.addEventListener('click', event => {
       if (painel && !painel.hidden && !event.target.closest('.acessibilidade')) fechar();
     });

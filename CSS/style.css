@@ -17,6 +17,10 @@
 
 body {
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
     font-family: Arial, Helvetica, sans-serif;
     color: var(--texto);
     background: #fff;
@@ -99,6 +103,7 @@ body {
 
 .estrutura {
     display: flex;
+    flex: 1 0 auto;
     align-items: stretch;
     min-height: 620px;
 }
@@ -186,7 +191,7 @@ body {
     list-style: none;
 }
 
-#lista-catalogo li a {
+#lista-catalogo li a, .acervo-autores-lista li a {
     display: block;
     padding: 9px 4px;
     color: #171d1d;
@@ -195,8 +200,8 @@ body {
     border-radius: 5px;
 }
 
-#lista-catalogo li a:hover,
-#lista-catalogo li a:focus-visible {
+#lista-catalogo li a:hover, .acervo-autores-lista li a:hover,
+#lista-catalogo li a:focus-visible, .acervo-autores-lista li a:focus-visible {
     background: #d1dde3;
     color: #174c74;
 }
@@ -212,6 +217,7 @@ body {
 
 .conteudo {
     width: 100%;
+    min-width: 0;
     max-width: 1000px;
     margin: 0 auto;
     padding: 24px 40px 90px;
@@ -239,7 +245,7 @@ body {
     font-size: 1rem;
     line-height: 1.65;
     margin: 0;
-    text-align: left;
+    text-align: justify;
 }
 
 
@@ -249,6 +255,7 @@ body {
 
 .rodape {
     position: relative;
+    flex-shrink: 0;
     min-height: 115px;
     background: var(--verde);
     border-top: 10px solid var(--azul);
@@ -391,8 +398,8 @@ body {
 /* Menu de obras com autor clicável e botão de expansão independente */
 #lista-catalogo {list-style:none;padding:0;margin:24px 0 0;}
 #lista-catalogo > li {margin:0;}
-#lista-catalogo a {display:block;padding:8px 3px;color:#202625;text-decoration:none;font-size:0.875rem;overflow-wrap:anywhere;}
-#lista-catalogo a:hover,#lista-catalogo a:focus-visible {text-decoration:underline;color:#215d86;}
+#lista-catalogo a, .acervo-autores-lista a {display:block;padding:8px 3px;color:#202625;text-decoration:none;font-size:0.875rem;overflow-wrap:anywhere;}
+#lista-catalogo a:hover,#lista-catalogo a:focus-visible,.acervo-autores-lista a:hover,.acervo-autores-lista a:focus-visible {text-decoration:underline;color:#215d86;}
 #lista-catalogo .grupo-obras {margin-bottom:12px;}
 .grupo-autor {display:flex;align-items:center;gap:5px;justify-content:space-between;}
 .grupo-autor a {font-weight:600;flex:1;}
@@ -402,8 +409,14 @@ body {
 .sublista[hidden] {display:none;}
 .sublista li a {font-size:0.8125rem!important;padding:7px 3px!important;}
 #sem-resultados[hidden] {display:none;}
+.acervo-autores { margin-top: 22px; padding-bottom: 18px; border-bottom: 1px solid #bdcdd5; }
+.acervo-autores[hidden] { display: none; }
+.acervo-autores h3 { margin: 0 0 10px; color: var(--verde); font: 700 1rem/1.4 Arial, sans-serif; }
+.acervo-autores-lista { margin: 0; padding: 0; list-style: none; }
 /* Página do autor */
 .foto-autor {display:block;max-width:160px;width:100%;height:auto;max-height:215px;object-fit:cover;border-radius:12px;margin:0 auto 45px;}
+.pagina-laura .foto-autor { object-fit: contain; max-height: none; }
+.pagina-laura #biografia-laura + p + p { margin-top: 20px; }
 .capas {display:flex;flex-wrap:wrap;justify-content:center;gap:26px;margin:22px 0;}
 .livro {display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;width:150px;text-decoration:none;font-size:0.8125rem;}
 .livro:hover {text-decoration:underline;}
@@ -411,7 +424,7 @@ body {
 .veja-mais {display:table;margin:20px auto 0;background:#d1e2eb;border-radius:9px;padding:12px 24px;color:#28689a;text-decoration:none;}
 .veja-mais:hover {background:#b9d6e6;}
 .conteudo section {max-width:750px;}
-.conteudo p {text-align:left;}
+.conteudo p {text-align:justify;}
 
 
 /* Capas: somente a imagem funciona como link */
@@ -448,12 +461,15 @@ body {
 ========================================= */
 .pagina-sobre { max-width:1100px; }
 .pagina-sobre section { max-width:760px; margin-bottom:38px; }
-.pagina-sobre p { line-height:1.75; text-align:left; overflow-wrap:break-word; }
+.pagina-sobre p { line-height:1.75; text-align:justify; overflow-wrap:break-word; }
 .pagina-sobre .secao-integrantes { max-width:900px; margin:76px auto 45px; }
 .secao-integrantes > h2 { font:small-caps 1.6875rem Georgia,serif; text-align:center; margin-bottom:55px; }
 .grade-integrantes { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:32px; align-items:start; }
 .integrante { display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; }
-.integrante h3 { font:small-caps 1.0625rem Georgia,serif; margin:0; }
+.integrante h3 { font: 1.0625rem Georgia,serif; font-variant: normal; text-transform: none; margin:0; }
+.pagina-sobre .secao-equipe { margin: 55px auto 45px; text-align: center; }
+.pagina-sobre .secao-equipe > h2 { font: small-caps 1.6875rem Georgia,serif; margin-bottom: 28px; }
+.secao-equipe .integrante h3 { max-width: 420px; line-height: 1.5; }
 .foto-pendente { width:145px; height:190px; display:flex; align-items:center; justify-content:center; border-radius:12px; background:#e9eff2; color:#304934; font:2rem Georgia,serif; border:1px dashed #b1c0c8; }
 @media (max-width:700px) { .grade-integrantes {grid-template-columns:1fr;gap:32px;} .pagina-sobre .secao-integrantes {margin-top:55px;} }
 
@@ -530,7 +546,7 @@ body {
 .cbep-timeline .timeline-panel {
   min-height: 245px;
   padding: 12px 0 10px;
-  text-align: left;
+  text-align: justify;
 }
 .cbep-timeline .timeline-year {
   font: bold 3.125rem Georgia, serif;
@@ -546,7 +562,7 @@ body {
   max-width: 720px;
   margin: 0;
   font: 1.0625rem/1.65 Georgia, serif;
-  text-align: left;
+  text-align: justify;
 }
 .cbep-timeline .timeline-arrow {
   width: 38px;
@@ -603,7 +619,25 @@ body {
 /* Eventos com mais de um parágrafo, sem alterar o visual sem quadro */
 .timeline-description p { margin: 0 0 1.1rem; }
 .timeline-description p:last-child { margin-bottom: 0; }
-
+.timeline-intervalos .timeline-dates { gap: 24px; justify-content: space-between; scrollbar-width: none; }
+.timeline-intervalos .timeline-dates::-webkit-scrollbar { display: none; }
+.timeline-intervalos .timeline-dates button { flex: 0 0 auto; white-space: nowrap; font-size: 1.625rem; padding: 12px 16px; }
+.timeline-intervalos .timeline-dates button.selected { transform: none; }
+.timeline-intervalos .timeline-stage { align-items: start; }
+.timeline-intervalos .timeline-arrow { margin-top: 24px; }
+.timeline-intervalos .timeline-panel { height: auto; max-height: none; overflow: visible; padding: 20px; }
+.timeline-event-list { margin: 0; padding: 0; list-style: none; }
+.timeline-event-list > li { padding: 20px 0; }
+.timeline-event-list h3 { margin: 0 0 12px; color: #2265a0; font: bold 1.5rem/1.3 Georgia, serif; }
+.timeline-intervalos .timeline-dates button { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.timeline-simbolo { display: flex; align-items: flex-end; justify-content: center; height: 56px; width: 56px; }
+.timeline-arvore { display: block; flex: 0 0 48px; width: 48px; height: 56px; object-fit: contain; object-position: center bottom; }
+.timeline-arvore-0 { height: 30px; }
+.timeline-arvore-1 { height: 40px; }
+.timeline-arvore-2 { height: 50px; }
+.timeline-intervalos .timeline-event-list p { margin: 0 0 16px; }
+@media(max-width:650px) { .timeline-intervalos .timeline-dates { gap: 12px; } .timeline-intervalos .timeline-dates button { font-size: 1.25rem; padding: 10px; } .timeline-intervalos .timeline-panel { padding: 12px; } }
+/* Paineis horizontais expansiveis inspirados no modelo de TriVector. */
 /* Catálogo de Helena Kolody e páginas individuais */
 .pagina-obras-catalogo { max-width:1050px; }
 .pagina-obras-catalogo .introducao-obras { margin-bottom:28px; }
@@ -673,3 +707,42 @@ body {
 /* Aviso das páginas individuais de obras. */
 .aviso-construcao { min-height: 45vh; display: grid; place-items: center; text-align: center; padding: 2rem 0; }
 .aviso-construcao h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; }
+
+/* Alinhamento dos textos de leitura em todas as paginas. */
+body main.conteudo :is(p, li, dd, blockquote) { text-align: justify; text-justify: inter-word; }
+.referencias-bibliograficas { margin-top: 20px; }
+.referencias-bibliograficas h3 { margin: 28px 0 16px; font-size: 1.125rem; font-weight: 600; }
+.conteudo .referencias-bibliograficas p + p { margin-top: 22px; }
+.referencias-bibliograficas a { overflow-wrap: anywhere; }
+.links-complemento { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 18px; }
+.pagina-livro .capa-detalhe { display: block; width: 160px; max-width: 100%; height: 230px; object-fit: contain; margin: 0 auto; }
+.pagina-livro .texto-editora p + p { margin-top: 20px; }
+.ficha-editora { margin: 0; }
+.ficha-editora > div { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-bottom: 12px; }
+.ficha-editora dt { min-width: 180px; font-weight: bold; }
+.ficha-editora dd { margin: 0; overflow-wrap: anywhere; }
+.video-complemento { margin-top: 32px; }
+.video-complemento > h3 { margin: 0 0 20px; font-size: 1.25rem; font-weight: 400; }
+.video-complemento .outros-video { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: #18241c; }
+.video-complemento iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-complemento .titulo-sinopse { margin: 24px 0 16px; }
+.video-complemento .video-aviso { margin: 12px 0; font-size: .875rem; color: #58636b; }
+.video-complemento .outros-saiba-mais { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
+.video-complemento .outros-saiba-mais h3 { margin: 0; font-size: 1.125rem; font-weight: 400; }
+.video-complemento .outros-saiba-mais a { color: var(--azul); overflow-wrap: anywhere; }
+
+/* Conteudo mais amplo, com margens proporcionais ao tamanho da tela. */
+body main.conteudo { max-width: 1400px; padding-inline: max(100px, 5vw); }
+body main.conteudo > section { max-width: 1200px; }
+body main.conteudo.pagina-outros .outros-conteudo { max-width: 1200px; }
+body main.conteudo .timeline-panel p { max-width: none; }
+body main.conteudo .grade-obras { max-width: 1200px; }
+body main.conteudo .filtros-obras { max-width: 1200px; }
+body main.conteudo .campo-busca-obras { max-width: 100%; }
+@media (min-width: 701px) {
+  body main.conteudo > section > p,
+  body main.conteudo .texto-editora p,
+  body main.conteudo .timeline-description p,
+  body main.conteudo .outros-introducao,
+  body main.conteudo .outros-destaque > p { font-size: 1.0625rem; line-height: 1.75; }
+}
